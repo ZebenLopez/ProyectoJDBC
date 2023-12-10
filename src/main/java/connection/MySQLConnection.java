@@ -9,17 +9,18 @@ import repositories.CrearTablas;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class MySQLConnection {
     CrearTablas tablaAlumnos = new CrearTablas();
-    String bdName = "ProyectoJDBC";
+    static String bdName = "";
+    static String url = "";
+    public String getUrl() {
+        return url;
+    }
 
     public String getBdName() {
         return bdName;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public String getUsername() {
@@ -29,10 +30,8 @@ public class MySQLConnection {
     public String getPassword() {
         return password;
     }
-
-    String url = "jdbc:mysql://localhost:3306/" + bdName;
-    String username = "root";
-    String password = "123456";
+    static String username = "";
+    static String password = "";
     Connection connection = null;
 
     private static String driver = "com.mysql.cj.jdbc.Driver";
@@ -44,6 +43,14 @@ public class MySQLConnection {
         return connection;
     }
     public Connection conexionBaseDatos() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introduzca el nombre de la base de datos: ");
+        bdName = scanner.nextLine();
+        url= "jdbc:mysql://localhost:3306/" + bdName;
+        System.out.println("Introduzca el nombre de usuario: ");
+        username = scanner.nextLine();
+        System.out.println("Introduzca la contraseña: ");
+        password = scanner.nextLine();
         try {
             Class.forName(driver);
             System.out.println("MySQL JDBC Driver registrado.");
@@ -57,7 +64,7 @@ public class MySQLConnection {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connection exitosa.");
         } catch (SQLException e) {
-            System.err.println("Connection NO exitosa.");
+            System.err.println("[Error] Connection NO exitosa.\nLos datos introducidos no son correctos");
             System.exit(-1);
         } finally {
             try {

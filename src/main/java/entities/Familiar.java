@@ -30,34 +30,6 @@ public class Familiar {
         this.telefono = telefono;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setIdAlumno(int idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
-    }
-
-    public void setCustodia(Boolean custodia) {
-        this.custodia = custodia;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public int getIdAlumno() {
         return idAlumno;
     }

@@ -1,6 +1,7 @@
 package repositories;
 
 import entities.Alumno;
+import entities.Direccion;
 import entities.Familiar;
 import validacion.Validacion;
 
@@ -12,11 +13,12 @@ public class ManejoAlumnos {
     Validacion validacion = new Validacion();
 
     public void elegirOpcion(String url, String username, String password) throws Exception {
+        System.out.println(url + " " + username + " " + password);
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
 
         do {
-            System.out.println("Elija una opción: ");
+            System.out.println("--> Elija una opción: ");
             System.out.println("1. Buscar alumno por nombre");
             System.out.println("2. Consultar todos los alumnos");
             System.out.println("3. Custodia de alumno por su nombre");
@@ -102,11 +104,46 @@ public class ManejoAlumnos {
         } while (opcion != 15);
     }
 
+//    public void buscarAlumnos(String url, String username, String password) {
+//        Scanner scanner = new Scanner(System.in);
+//        Connection con = null;
+//        PreparedStatement pstmt = null;
+//        String sql = "SELECT * FROM Alumno where id = ?";
+//        try {
+//            con = DriverManager.getConnection(url, username, password);
+//            int idAlumno = obtenerIdAlumno(con, scanner);
+//            if (idAlumno == -1) {
+//                return; // Si el método retorna -1, salimos del método
+//            }
+//            pstmt = con.prepareStatement(sql);
+//            pstmt.setInt(1, idAlumno);
+//            ResultSet rs = pstmt.executeQuery();
+//            if (!rs.next()) {
+//                System.out.println("[i] No se encontró ningún alumno con el ID ingresado");
+//                System.out.println("--> Pulsa enter para continuar");
+//                scanner.nextLine();
+//            } else {
+//                do {
+//                    int id = rs.getInt("id");
+//                    String nombre = rs.getString("nombre");
+//                    int telefono = rs.getInt("telefono");
+//                    String direccion = rs.getString("direccion");
+//                    Alumno alumno = new Alumno(id, nombre, telefono, direccion);
+//                    System.out.println(alumno);
+//                    System.out.println("--> Pulsa enter para continuar");
+//                    scanner.nextLine();
+//                } while (rs.next());
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     public void buscarAlumnos(String url, String username, String password) {
         Scanner scanner = new Scanner(System.in);
         Connection con = null;
         PreparedStatement pstmt = null;
-        String sql = "SELECT * FROM Alumno where id = ?";
+        String sql = "SELECT Alumno.*, Direccion.direccion FROM Alumno INNER JOIN Direccion ON Alumno.id = Direccion.idAlumno WHERE Alumno.id = ?";
         try {
             con = DriverManager.getConnection(url, username, password);
             int idAlumno = obtenerIdAlumno(con, scanner);
@@ -121,22 +158,24 @@ public class ManejoAlumnos {
                 System.out.println("--> Pulsa enter para continuar");
                 scanner.nextLine();
             } else {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                int telefono = rs.getInt("telefono");
+                String direccion = rs.getString("direccion");
+                Alumno alumno = new Alumno(id, nombre, telefono, direccion);
+                System.out.println(alumno);
                 do {
-                    int id = rs.getInt("id");
-                    String nombre = rs.getString("nombre");
-                    int telefono = rs.getInt("telefono");
-                    String direccion = rs.getString("direccion");
-                    Alumno alumno = new Alumno(id, nombre, telefono, direccion);
-                    System.out.println(alumno);
-                    System.out.println("--> Pulsa enter para continuar");
-                    scanner.nextLine();
+                    String direccionAlumno = rs.getString("Direccion.direccion");
+                    Direccion direccion1 = new Direccion(idAlumno, direccionAlumno);
+                    System.out.println(direccion1);
                 } while (rs.next());
+                System.out.println("--> Pulsa enter para continuar");
+                scanner.nextLine();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
     public void consultarTodosAlumnos(String url, String username, String password) {
         Scanner scanner = new Scanner(System.in);
         Connection con = null;
@@ -158,7 +197,7 @@ public class ManejoAlumnos {
             throw new RuntimeException(e);
         }
         System.out.println();
-        System.out.println("-->Pulsa enter para continuar");
+        System.out.println("--> Pulsa enter para continuar");
         scanner.nextLine();
     }
 
@@ -747,13 +786,13 @@ public class ManejoAlumnos {
             try {
                 con = DriverManager.getConnection(url, username, password);
                 pstmt = con.prepareStatement(sqlCheck);
-                System.out.println("Ingrese el nombre de la asignatura a borrar: ");
+                System.out.println("--> Ingrese el nombre de la asignatura a borrar: ");
                 String nombreAsignatura = scanner.nextLine();
                 pstmt.setString(1, nombreAsignatura);
                 ResultSet rs = pstmt.executeQuery();
                 if (!rs.next()) {
-                    System.out.println("No se encontró la asignatura a borrar");
-                    System.out.println("¿Desea volver a intentarlo? (1 para sí, 2 para no)");
+                    System.out.println("[Error] No se encontró la asignatura a borrar");
+                    System.out.println("--> ¿Desea volver a intentarlo? (1 para sí, 2 para no)");
                     do {
                         while (!scanner.hasNextInt()) {
                             System.out.println("[i] Por favor, ingrese un valor válido (1 para sí, 2 para no)");
@@ -769,7 +808,7 @@ public class ManejoAlumnos {
                     pstmt.setString(1, nombreAsignatura);
                     pstmt.executeUpdate();
                     System.out.println("[i] Asignatura borrada correctamente");
-                    System.out.println("¿Desea borrar otra asignatura? (1 para sí, 2 para no)");
+                    System.out.println("--> ¿Desea borrar otra asignatura? (1 para sí, 2 para no)");
                     do {
                         while (!scanner.hasNextInt()) {
                             System.out.println("[i] Por favor, ingrese un valor válido (1 para sí, 2 para no)");
@@ -792,7 +831,7 @@ public class ManejoAlumnos {
         String nombreAlumno;
         int idAlumno;
         do {
-            System.out.println("Ingrese el nombre del alumno: ");
+            System.out.println("--> Ingrese el nombre del alumno: ");
             nombreAlumno = scanner.nextLine();
 
             // Obtener el idAlumno a partir del nombre del alumno
@@ -804,8 +843,8 @@ public class ManejoAlumnos {
                     idAlumno = rs.getInt(1);
                     break;
                 } else {
-                    System.out.println("No se encontró el alumno con el nombre proporcionado");
-                    System.out.println("¿Desea volver a intentarlo? (1 para sí, 2 para no)");
+                    System.out.println("[i] No se encontró el alumno con el nombre proporcionado");
+                    System.out.println("--> ¿Desea volver a intentarlo? (1 para sí, 2 para no)");
                     int opcion;
                     do {
                         while (!scanner.hasNextInt()) {

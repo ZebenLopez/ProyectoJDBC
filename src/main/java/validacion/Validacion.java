@@ -9,13 +9,13 @@ public class Validacion {
 
     public boolean validarString(String nombre){
         if (nombre.length() < 4) {
-            System.out.println("El nombre debe tener al menos 4 caracteres.");
+            System.out.println("[i] El nombre debe tener al menos 4 caracteres.");
             return false;
         } else if (nombre.length() > 50) {
-            System.out.println("El nombre debe tener menos de 50 caracteres.");
+            System.out.println("[i] El nombre debe tener menos de 50 caracteres.");
             return false;
         } else if (!nombre.matches("^[a-zA-Z0-9 ]*$")) {
-            System.out.println("El nombre solo puede contener letras, números y espacios.");
+            System.out.println("[i] El nombre solo puede contener letras, números y espacios.");
             return false;
         } else {
             return true;
@@ -25,13 +25,13 @@ public class Validacion {
     public boolean validarTelefono(int telefono) throws Exception {
         try {
             if (telefono < 100000000 || telefono > 999999999) {
-                System.out.println("El telefono debe tener 9 digitos.");
+                System.out.println("[i] El telefono debe tener 9 digitos.");
                 return false;
             } else {
                 return true;
             }
         } catch (Exception e) {
-            System.out.println("El telefono debe tener 9 digitos.");
+            System.out.println("[i] El telefono debe tener 9 digitos.");
             return false;
         }
     }
@@ -54,7 +54,7 @@ public class Validacion {
         if (sexo.equalsIgnoreCase("Hombre") || sexo.equalsIgnoreCase("Mujer")) {
             return true;
         } else {
-            System.out.println("El sexo debe ser Hombre o Mujer.");
+            System.out.println("[i] El sexo debe ser Hombre o Mujer.");
             return false;
         }
     }
@@ -62,13 +62,13 @@ public class Validacion {
     public boolean validarNotas(int notas) throws Exception {
         try {
             if (notas < 0 || notas > 10) {
-                System.out.println("Las notas deben estar entre 0 y 10.");
+                System.out.println("[i] Las notas deben estar entre 0 y 10.");
                 return false;
             } else {
                 return true;
             }
         } catch (Exception e) {
-            System.out.println("Las notas deben ser un número entre 0 y 10.");
+            System.out.println("[i] Las notas deben ser un número entre 0 y 10.");
             return false;
         }
     }

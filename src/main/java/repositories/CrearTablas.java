@@ -1,6 +1,7 @@
 package repositories;
 
 
+import java.io.IOException;
 import java.sql.*;
 
 public class CrearTablas {
@@ -21,7 +22,7 @@ public class CrearTablas {
                         "telefono INT UNIQUE, " +
                         "direccion VARCHAR(50))";
                 statement.executeUpdate(sql);
-                System.out.println("La tabla Alumno ha sido creada.");
+                System.out.println("[i] La tabla Alumno ha sido creada.");
 // Crear la tabla Direccion
             statement.executeUpdate("DROP TABLE IF EXISTS Direccion");
             sql = "CREATE TABLE Direccion (" +
@@ -30,7 +31,7 @@ public class CrearTablas {
                     "direccion VARCHAR(50), " +
                     "FOREIGN KEY (idAlumno) REFERENCES Alumno(id))";
             statement.executeUpdate(sql);
-            System.out.println("La tabla Direccion ha sido creada.");
+            System.out.println("[i] La tabla Direccion ha sido creada.");
 
 // Crear la tabla Familiar
             statement.executeUpdate("DROP TABLE IF EXISTS Familiar");
@@ -43,7 +44,7 @@ public class CrearTablas {
                     "custodia BOOLEAN, " +
                     "FOREIGN KEY (idAlumno) REFERENCES Alumno(id))";
             statement.executeUpdate(sql);
-            System.out.println("La tabla Familiar ha sido creada.");
+            System.out.println("[i] La tabla Familiar ha sido creada.");
 
 // Crear la tabla Asignatura
             statement.executeUpdate("DROP TABLE IF EXISTS Asignatura");
@@ -55,9 +56,13 @@ public class CrearTablas {
                     "notas INT, " +
                     "FOREIGN KEY (idAlumno) REFERENCES Alumno(id))";
             statement.executeUpdate(sql);
-            System.out.println("La tabla Asignatura ha sido creada.");
+            System.out.println("[i] La tabla Asignatura ha sido creada.");
+            System.out.println("--> Pulse enter para continuar...");
+            System.in.read();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
                 if (resultSet != null) resultSet.close();
@@ -80,9 +85,13 @@ public class CrearTablas {
 
             // Eliminar las tablas
             statement.executeUpdate("DROP TABLE IF EXISTS Alumno");
+            System.out.println("[i] La tabla Alumno ha sido eliminada.");
             statement.executeUpdate("DROP TABLE IF EXISTS Direccion");
+            System.out.println("[i] La tabla Direccion ha sido eliminada.");
             statement.executeUpdate("DROP TABLE IF EXISTS Familiar");
+            System.out.println("[i] La tabla Familiar ha sido eliminada.");
             statement.executeUpdate("DROP TABLE IF EXISTS Asignatura");
+            System.out.println("[i] La tabla Asignatura ha sido eliminada.");
 
             // Reactivar las comprobaciones de claves foráneas
             statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
