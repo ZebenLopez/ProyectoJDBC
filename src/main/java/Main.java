@@ -12,9 +12,8 @@ public class Main {
 
     public void run() throws Exception {
         MySQLConnection mySQLConnection = new MySQLConnection();
-        Connection connection = mySQLConnection.conexionBaseDatos();
+        mySQLConnection.conexionBaseDatos();
         String url = mySQLConnection.getUrl();
-        String bdName = mySQLConnection.getBdName();
         String username = mySQLConnection.getUsername();
         String password = mySQLConnection.getPassword();
 

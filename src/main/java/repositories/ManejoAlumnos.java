@@ -13,7 +13,6 @@ public class ManejoAlumnos {
     Validacion validacion = new Validacion();
 
     public void elegirOpcion(String url, String username, String password) throws Exception {
-        System.out.println(url + " " + username + " " + password);
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
 
@@ -103,41 +102,6 @@ public class ManejoAlumnos {
             }
         } while (opcion != 15);
     }
-
-//    public void buscarAlumnos(String url, String username, String password) {
-//        Scanner scanner = new Scanner(System.in);
-//        Connection con = null;
-//        PreparedStatement pstmt = null;
-//        String sql = "SELECT * FROM Alumno where id = ?";
-//        try {
-//            con = DriverManager.getConnection(url, username, password);
-//            int idAlumno = obtenerIdAlumno(con, scanner);
-//            if (idAlumno == -1) {
-//                return; // Si el método retorna -1, salimos del método
-//            }
-//            pstmt = con.prepareStatement(sql);
-//            pstmt.setInt(1, idAlumno);
-//            ResultSet rs = pstmt.executeQuery();
-//            if (!rs.next()) {
-//                System.out.println("[i] No se encontró ningún alumno con el ID ingresado");
-//                System.out.println("--> Pulsa enter para continuar");
-//                scanner.nextLine();
-//            } else {
-//                do {
-//                    int id = rs.getInt("id");
-//                    String nombre = rs.getString("nombre");
-//                    int telefono = rs.getInt("telefono");
-//                    String direccion = rs.getString("direccion");
-//                    Alumno alumno = new Alumno(id, nombre, telefono, direccion);
-//                    System.out.println(alumno);
-//                    System.out.println("--> Pulsa enter para continuar");
-//                    scanner.nextLine();
-//                } while (rs.next());
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     public void buscarAlumnos(String url, String username, String password) {
         Scanner scanner = new Scanner(System.in);
@@ -269,6 +233,7 @@ public class ManejoAlumnos {
         } while (!isValid);
         do {
             System.out.println("--> Ingrese la dirección del alumno: ");
+            scanner.nextLine(); // Consumir el salto de línea restante
             direccion = scanner.nextLine();
             isValid = validacion.validarString(direccion);
         } while (!isValid);

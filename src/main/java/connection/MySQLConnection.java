@@ -18,29 +18,16 @@ public class MySQLConnection {
     public String getUrl() {
         return url;
     }
-
-    public String getBdName() {
-        return bdName;
-    }
-
     public String getUsername() {
         return username;
     }
-
     public String getPassword() {
         return password;
     }
     static String username = "";
     static String password = "";
-    Connection connection = null;
-
     private static String driver = "com.mysql.cj.jdbc.Driver";
-
     public MySQLConnection() {
-    }
-
-    public Connection getConnection() {
-        return connection;
     }
     public Connection conexionBaseDatos() {
         Scanner scanner = new Scanner(System.in);
@@ -63,6 +50,8 @@ public class MySQLConnection {
         try {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connection exitosa.");
+            System.out.println("Pulse enter para continuar...");
+            scanner.nextLine();
         } catch (SQLException e) {
             System.err.println("[Error] Connection NO exitosa.\nLos datos introducidos no son correctos");
             System.exit(-1);
@@ -87,6 +76,9 @@ public class MySQLConnection {
             Object[] datosFamiliar = new Object[]{familiar.getIdAlumno(), familiar.getNombre(), familiar.getSexo(), familiar.getTelefono(), familiar.getCustodia()};
             tablaAlumnos.insertarDatosGenerico(bdName, username, password, "Familiar", columnasFamiliar, datosFamiliar);
         }
+        System.out.println("[i] Datos insertados correctamente.");
+        System.out.println("--> Pulse enter para continuar...");
+        scanner.nextLine();
         for (Asignatura asignatura : asignaturas) {
             Object[] datosAsignatura = new Object[]{asignatura.getIdAlumno(), asignatura.getNombreAsignatura(), asignatura.getCurso(), asignatura.getNotas()};
             tablaAlumnos.insertarDatosGenerico(bdName, username, password, "Asignatura", columnasAsignatura, datosAsignatura);

@@ -92,11 +92,15 @@ public class CrearTablas {
             System.out.println("[i] La tabla Familiar ha sido eliminada.");
             statement.executeUpdate("DROP TABLE IF EXISTS Asignatura");
             System.out.println("[i] La tabla Asignatura ha sido eliminada.");
+            System.out.println("--> Pulse enter para continuar...");
+            System.in.read();
 
             // Reactivar las comprobaciones de claves foráneas
             statement.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
                 if (statement != null) statement.close();
